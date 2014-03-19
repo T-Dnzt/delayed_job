@@ -35,9 +35,9 @@ module Delayed
       self.max_run_time     = DEFAULT_MAX_RUN_TIME
       self.default_priority = DEFAULT_DEFAULT_PRIORITY
       self.delay_jobs       = DEFAULT_DELAY_JOBS
-      p "Default: #{DELAYED_DEFAULT_QUEUES}"
-      Rails.logger.info "Default: #{DELAYED_DEFAULT_QUEUES}"
-      self.queues           = defined?(DELAYED_DEFAULT_QUEUES) ? DELAYED_DEFAULT_QUEUES : DEFAULT_QUEUES
+      p "Default: #{::DELAYED_DEFAULT_QUEUES}"
+      Rails.logger.info "Default: #{::DELAYED_DEFAULT_QUEUES}"
+      self.queues           = defined?(::DELAYED_DEFAULT_QUEUES) ? ::DELAYED_DEFAULT_QUEUES : DEFAULT_QUEUES
       self.read_ahead       = DEFAULT_READ_AHEAD
     end
 
