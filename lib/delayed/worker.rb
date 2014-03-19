@@ -35,9 +35,7 @@ module Delayed
       self.max_run_time     = DEFAULT_MAX_RUN_TIME
       self.default_priority = DEFAULT_DEFAULT_PRIORITY
       self.delay_jobs       = DEFAULT_DELAY_JOBS
-      p "Default: #{::DELAYED_DEFAULT_QUEUES}"
-      Rails.logger.info "Default: #{::DELAYED_DEFAULT_QUEUES}"
-      self.queues           = defined?(::DELAYED_DEFAULT_QUEUES) ? ::DELAYED_DEFAULT_QUEUES : DEFAULT_QUEUES
+      self.queues           = DEFAULT_QUEUES
       self.read_ahead       = DEFAULT_READ_AHEAD
     end
 
@@ -111,9 +109,11 @@ module Delayed
       @quiet = options.has_key?(:quiet) ? options[:quiet] : true
       @failed_reserve_count = 0
 
+      current_queues = Delayed::Worker.queues.dup
       [:min_priority, :max_priority, :sleep_delay, :read_ahead, :queues, :exit_on_complete].each do |option|
         self.class.send("#{option}=", options[option]) if options.has_key?(option)
       end
+      self.queues = current_queues unless self.queues.any?
 
       self.plugins.each { |klass| klass.new }
     end
